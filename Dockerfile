@@ -19,12 +19,15 @@ RUN apt-get update && apt-get install -y \
 
 RUN python3 -m venv /opt/venv
 RUN pip install --upgrade pip setuptools wheel
+
 RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY dataset.json dataset.json
-COPY grid_search.py grid_search.py
+COPY train.py train.py
 
-CMD ["/opt/venv/bin/python", "grid_search.py"]
+EXPOSE 8080
+
+CMD ["/opt/venv/bin/python", "train.py"]
